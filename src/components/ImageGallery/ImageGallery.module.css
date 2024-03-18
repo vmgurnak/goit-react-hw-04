@@ -1,0 +1,17 @@
+.imageGalleryContainer {
+  margin-left: auto;
+  margin-right: auto;
+  padding: 50px 20px 10px 20px;
+}
+
+.imageGalleryList {
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  display: flex;
+}
+
+.imageGalleryItem {
+  flex-basis: 340px;
+}
