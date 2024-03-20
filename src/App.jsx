@@ -83,7 +83,6 @@ const App = () => {
   };
 
   const modalImage = img => {
-    console.log(img);
     setModalImg(img);
   };
 
