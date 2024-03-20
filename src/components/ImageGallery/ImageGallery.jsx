@@ -2,7 +2,7 @@ import css from './ImageGallery.module.css';
 
 import ImageCard from '../ImageCard/ImageCard';
 
-const ImageGallery = ({ images }) => {
+const ImageGallery = ({ images, openModal, modalImage }) => {
   return (
     <div className={css.imageGalleryContainer}>
       <ul className={css.imageGalleryList}>
@@ -11,7 +11,12 @@ const ImageGallery = ({ images }) => {
           images.map(({ id, urls: { small, regular } }) => {
             return (
               <li className={css.imageGalleryItem} key={id}>
-                <ImageCard small={small} regular={regular} />
+                <ImageCard
+                  small={small}
+                  regular={regular}
+                  openModal={openModal}
+                  modalImage={modalImage}
+                />
               </li>
             );
           })}

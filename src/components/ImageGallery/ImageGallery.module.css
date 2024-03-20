@@ -1,14 +1,14 @@
 .imageGalleryContainer {
   margin-left: auto;
   margin-right: auto;
-  padding: 50px 20px 10px 20px;
+  padding: 0px 20px 10px 20px;
 }
 
 .imageGalleryList {
   flex-wrap: wrap;
   justify-content: center;
   gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   display: flex;
 }
 

@@ -1,9 +1,18 @@
 import css from './ImageCard.module.css';
 
-const ImageCard = ({ small, regular }) => {
+const ImageCard = ({ small, regular, openModal, modalImage }) => {
+  const handleClick = () => {
+    openModal();
+    modalImage(regular);
+  };
   return (
     <div className={css.ImageCardWrap}>
-      <img className={css.ImageCardImg} src={small} alt="" />
+      <img
+        onClick={handleClick}
+        className={css.ImageCardImg}
+        src={small}
+        alt=""
+      />
     </div>
   );
 };

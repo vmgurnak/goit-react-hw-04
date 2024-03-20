@@ -1,3 +1,5 @@
+import './App.css';
+
 import { useEffect, useState } from 'react';
 import { requestImageByQuery } from './services/api';
 import toast, { Toaster } from 'react-hot-toast';
@@ -6,51 +8,104 @@ import SearchBar from './components/SearchBar/SearchBar';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import Loader from './components/Loader/Loader';
 import ImageGallery from './components/ImageGallery/ImageGallery';
+import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
+import ImageModal from './components/ImageModal/ImageModal';
 
 const App = () => {
-  const [images, setImages] = useState(null);
+  const [images, setImages] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(null);
+  const [isLoadMoreBtn, setIsLoadMoreBtn] = useState(false);
+  const [isImages, setIsImages] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [modalImg, setModalImg] = useState('');
 
-  console.log(images);
-  console.log(searchQuery);
+  console.log(modalIsOpen);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  console.log(currentPage);
+  let perPage = 6;
 
   useEffect(() => {
     if (searchQuery === null) return;
 
     async function fetchDataByQuery() {
       try {
+        setIsError(false);
         setIsLoading(true);
-        const data = await requestImageByQuery(searchQuery);
+        setIsLoadMoreBtn(false);
+        // setIsImages(false);
+        const data = await requestImageByQuery(
+          searchQuery,
+          currentPage,
+          perPage
+        );
+        console.log(data);
         if (data.results.length === 0) {
           toast(
             'Sorry, there are no images matching your search query. Please try again.'
           );
-          setImages(null);
+          setImages([]);
           return;
         } else {
-          setImages(data.results);
+          setImages(prevImages => {
+            return [...prevImages, ...data.results];
+          });
+          setIsImages(true);
+          setIsLoadMoreBtn(
+            data.total_pages && data.total_pages !== currentPage
+          );
         }
       } catch (err) {
+        setImages([]);
         setIsError(true);
       } finally {
         setIsLoading(false);
       }
     }
     fetchDataByQuery();
-  }, [searchQuery]);
+  }, [searchQuery, currentPage, perPage]);
 
   const onSetSearchQuery = query => {
+    setImages([]);
     setSearchQuery(query);
+  };
+
+  const onSetPage = () => {
+    setCurrentPage(prevState => prevState + 1);
+  };
+
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+
+  const modalImage = img => {
+    console.log(img);
+    setModalImg(img);
+  };
+
+  const closeModal = () => {
+    setModalIsOpen(false);
   };
 
   return (
     <div>
       <SearchBar onSetSearchQuery={onSetSearchQuery} />
-      {isError && <ErrorMessage />}
-      {isLoading && <Loader />}
-      {images && <ImageGallery images={images} />}
+      <section className="section">
+        {isError && <ErrorMessage />}
+        {isImages && (
+          <ImageGallery
+            images={images}
+            openModal={openModal}
+            modalImage={modalImage}
+          />
+        )}
+        {isLoading && <Loader />}
+        {isLoadMoreBtn && <LoadMoreBtn onSetPage={onSetPage} />}
+      </section>
       <Toaster
         position="top-right"
         toastOptions={{
@@ -60,6 +115,12 @@ const App = () => {
             color: '#000',
           },
         }}
+      />
+      <ImageModal
+        modalIsOpen={modalIsOpen}
+        closeModal={closeModal}
+        images={images}
+        modalImg={modalImg}
       />
     </div>
   );

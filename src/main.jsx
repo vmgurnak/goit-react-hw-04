@@ -4,6 +4,9 @@ import 'modern-normalize';
 import App from './App.jsx';
 import './index.css';
 
+import Modal from 'react-modal';
+Modal.setAppElement(document.getElementById('root'));
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />
