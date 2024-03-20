@@ -20,11 +20,8 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalImg, setModalImg] = useState('');
-
-  console.log(modalIsOpen);
-
   const [currentPage, setCurrentPage] = useState(1);
+  const [modalImg, setModalImg] = useState('');
 
   console.log(currentPage);
   let perPage = 6;
