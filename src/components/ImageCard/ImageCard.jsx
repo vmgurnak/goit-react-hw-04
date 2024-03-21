@@ -1,9 +1,9 @@
 import css from './ImageCard.module.css';
 
-const ImageCard = ({ small, regular, openModal, modalImage }) => {
+const ImageCard = ({ small, regular, alt, openModal, modalDate }) => {
   const handleClick = () => {
     openModal();
-    modalImage(regular);
+    modalDate(regular, alt);
   };
   return (
     <div className={css.ImageCardWrap}>
@@ -11,7 +11,7 @@ const ImageCard = ({ small, regular, openModal, modalImage }) => {
         onClick={handleClick}
         className={css.ImageCardImg}
         src={small}
-        alt=""
+        alt={alt}
       />
     </div>
   );

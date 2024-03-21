@@ -22,6 +22,7 @@ const App = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [modalImg, setModalImg] = useState('');
+  const [modalAlt, setModalAlt] = useState('');
 
   console.log(currentPage);
   let perPage = 6;
@@ -79,8 +80,9 @@ const App = () => {
     setModalIsOpen(true);
   };
 
-  const modalImage = img => {
+  const modalDate = (img, alt) => {
     setModalImg(img);
+    setModalAlt(alt);
   };
 
   const closeModal = () => {
@@ -96,7 +98,7 @@ const App = () => {
           <ImageGallery
             images={images}
             openModal={openModal}
-            modalImage={modalImage}
+            modalDate={modalDate}
           />
         )}
         {isLoading && <Loader />}
@@ -115,8 +117,8 @@ const App = () => {
       <ImageModal
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
-        images={images}
         modalImg={modalImg}
+        alt={modalAlt}
       />
     </div>
   );
