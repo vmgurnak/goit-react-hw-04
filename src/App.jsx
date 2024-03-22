@@ -30,6 +30,8 @@ const App = () => {
 
   let perPage = 20;
 
+  console.log(currentPage);
+
   useEffect(() => {
     if (searchQuery === null) {
       return;
@@ -81,6 +83,7 @@ const App = () => {
     }
     setSearchQuery(query);
     setImages([]);
+    setCurrentPage(1);
   };
 
   // callback function for SetPage
