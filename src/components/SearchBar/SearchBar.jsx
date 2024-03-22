@@ -21,7 +21,6 @@ const SearchBar = ({ onSetSearchQuery }) => {
     }
     onSetSearchQuery(values.query);
     actions.resetForm();
-    console.log(values.query);
   };
 
   return (
