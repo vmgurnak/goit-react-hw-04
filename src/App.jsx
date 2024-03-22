@@ -1,9 +1,13 @@
 import './App.css';
 
+// import huks
 import { useEffect, useState } from 'react';
+// import function request from api https://api.unsplash.com
 import { requestImageByQuery } from './services/api';
+
 import toast, { Toaster } from 'react-hot-toast';
 
+// import components
 import SearchBar from './components/SearchBar/SearchBar';
 import ErrorMessage from './components/ErrorMessage/ErrorMessage';
 import Loader from './components/Loader/Loader';
@@ -12,11 +16,11 @@ import LoadMoreBtn from './components/LoadMoreBtn/LoadMoreBtn';
 import ImageModal from './components/ImageModal/ImageModal';
 
 const App = () => {
+  // states
   const [images, setImages] = useState([]);
   const [searchQuery, setSearchQuery] = useState(null);
   const [isLoadMoreBtn, setIsLoadMoreBtn] = useState(false);
   const [isImages, setIsImages] = useState(false);
-
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -24,18 +28,18 @@ const App = () => {
   const [modalImg, setModalImg] = useState('');
   const [modalAlt, setModalAlt] = useState('');
 
-  console.log(currentPage);
-  let perPage = 6;
+  let perPage = 20;
 
   useEffect(() => {
-    if (searchQuery === null) return;
+    if (searchQuery === null) {
+      return;
+    }
 
-    async function fetchDataByQuery() {
+    async function dataByQuery() {
       try {
         setIsError(false);
         setIsLoading(true);
         setIsLoadMoreBtn(false);
-        // setIsImages(false);
         const data = await requestImageByQuery(
           searchQuery,
           currentPage,
@@ -47,6 +51,8 @@ const App = () => {
             'Sorry, there are no images matching your search query. Please try again.'
           );
           setImages([]);
+          setIsImages(false);
+
           return;
         } else {
           setImages(prevImages => {
@@ -58,33 +64,41 @@ const App = () => {
           );
         }
       } catch (err) {
+        setIsImages(false);
         setImages([]);
         setIsError(true);
       } finally {
         setIsLoading(false);
       }
     }
-    fetchDataByQuery();
-  }, [searchQuery, currentPage, perPage]);
+    dataByQuery();
+  }, [searchQuery, currentPage]);
 
+  // callback function for SearchQuery
   const onSetSearchQuery = query => {
-    setImages([]);
+    if (query === searchQuery) {
+      return;
+    }
     setSearchQuery(query);
+    setImages([]);
   };
 
+  // callback function for SetPage
   const onSetPage = () => {
     setCurrentPage(prevState => prevState + 1);
   };
 
+  // callback function for openModal
   const openModal = () => {
     setModalIsOpen(true);
   };
 
-  const modalDate = (img, alt) => {
+  const modalData = (img, alt) => {
     setModalImg(img);
     setModalAlt(alt);
   };
 
+  // callback function for closeModal
   const closeModal = () => {
     setModalIsOpen(false);
   };
@@ -92,18 +106,23 @@ const App = () => {
   return (
     <div>
       <SearchBar onSetSearchQuery={onSetSearchQuery} />
+
       <section className="section">
         {isError && <ErrorMessage />}
+
         {isImages && (
           <ImageGallery
             images={images}
             openModal={openModal}
-            modalDate={modalDate}
+            modalData={modalData}
           />
         )}
+
         {isLoading && <Loader />}
+
         {isLoadMoreBtn && <LoadMoreBtn onSetPage={onSetPage} />}
       </section>
+
       <Toaster
         position="top-right"
         toastOptions={{
@@ -114,6 +133,7 @@ const App = () => {
           },
         }}
       />
+
       <ImageModal
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}

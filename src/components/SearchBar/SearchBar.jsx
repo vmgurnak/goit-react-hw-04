@@ -1,8 +1,10 @@
 import css from './SearchBar.module.css';
 
+// import library Formik
 import { Formik, Form, Field } from 'formik';
+// import toast library for notification when the form is empty
 import toast, { Toaster } from 'react-hot-toast';
-// react icons
+// import react icons
 import { CiSearch } from 'react-icons/ci';
 
 // initialValues
@@ -19,6 +21,7 @@ const SearchBar = ({ onSetSearchQuery }) => {
     }
     onSetSearchQuery(values.query);
     actions.resetForm();
+    console.log(values.query);
   };
 
   return (
@@ -32,18 +35,6 @@ const SearchBar = ({ onSetSearchQuery }) => {
             autocomlete="off"
             placeholder="Search images and photos"
           />
-          <div>
-            {/* <Toaster
-              position="top-right"
-              toastOptions={{
-                duration: 3000,
-                style: {
-                  background: 'rgba(157, 222, 255, 0.9)',
-                  color: '#000',
-                },
-              }}
-            /> */}
-          </div>
           <button className={css.searchBarBtn} type="submit">
             <CiSearch size="22" />
           </button>

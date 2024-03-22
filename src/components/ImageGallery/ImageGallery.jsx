@@ -2,7 +2,7 @@ import css from './ImageGallery.module.css';
 
 import ImageCard from '../ImageCard/ImageCard';
 
-const ImageGallery = ({ images, openModal, modalDate }) => {
+const ImageGallery = ({ images, openModal, modalData }) => {
   return (
     <div className={css.imageGalleryContainer}>
       <ul className={css.imageGalleryList}>
@@ -16,7 +16,7 @@ const ImageGallery = ({ images, openModal, modalDate }) => {
                   regular={regular}
                   alt={alt_description}
                   openModal={openModal}
-                  modalDate={modalDate}
+                  modalData={modalData}
                 />
               </li>
             );

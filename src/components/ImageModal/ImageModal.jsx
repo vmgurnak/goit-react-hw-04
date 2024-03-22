@@ -1,3 +1,4 @@
+// import library React Modal
 import Modal from 'react-modal';
 
 import css from './ImageModal.module.css';
@@ -6,7 +7,7 @@ const ImageModal = ({ modalIsOpen, closeModal, modalImg, alt }) => {
   const customStyles = {
     overlay: {
       zIndex: '1',
-      backgroundColor: 'rgba(46, 47, 66, 0.46)',
+      backgroundColor: 'rgba(46, 47, 66, 0.76)',
     },
     content: {
       background: 'none',

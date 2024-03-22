@@ -1,3 +1,5 @@
+// function request from api https://api.unsplash.com
+
 import axios from 'axios';
 
 const requestImageByQuery = async (query, currentPage, perPage) => {
